@@ -404,6 +404,156 @@
       font-weight: 600;
       padding: 20px;
     }
+
+    /* Prayer Times Widget Styling */
+    .sbr-prayer-section {
+      width: 100%;
+      max-width: 28rem;
+      margin: 1.5rem auto;
+      padding: 1.5rem;
+      background: #1c1917;
+      border: 1px solid #BF953F;
+      border-radius: 1rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    .sbr-prayer-title {
+      font-size: 1.875rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.25rem;
+    }
+
+    .sbr-prayer-subtitle {
+      font-size: 0.625rem;
+      letter-spacing: 0.15em;
+      color: #BF953F;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .sbr-status-box {
+      background: #292524;
+      border: 1px solid rgba(191, 149, 63, 0.2);
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      space: 0.25rem;
+    }
+
+    .sbr-location {
+      color: #a8a29e;
+      margin-bottom: 0.5rem;
+    }
+
+    .sbr-next-prayer {
+      color: #FCF6BA;
+      font-weight: 600;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .sbr-audio-controller {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(41, 37, 36, 0.4);
+      border: 1px solid rgba(191, 149, 63, 0.1);
+      border-radius: 0.75rem;
+      padding: 0.625rem;
+      margin-bottom: 1rem;
+      font-size: 0.6875rem;
+    }
+
+    .sbr-audio-label {
+      color: #a8a29e;
+    }
+
+    .sbr-audio-toggle {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background: #292524;
+      border: 1px solid rgba(191, 149, 63, 0.4);
+      color: #FCF6BA;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sbr-audio-toggle:hover {
+      background: #BF953F;
+      color: #1c1917;
+    }
+
+    .sbr-prayer-grid {
+      space: 0.5rem;
+    }
+
+    .sbr-prayer-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(41, 37, 36, 0.5);
+      border: 1px solid rgba(191, 149, 63, 0.1);
+      border-radius: 0.75rem;
+      padding: 0.875rem;
+      transition: all 0.3s ease;
+      margin-bottom: 0.5rem;
+    }
+
+    .sbr-prayer-card.active {
+      border-color: #BF953F;
+      background: #1c1917;
+    }
+
+    .sbr-prayer-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #d6d3d1;
+    }
+
+    .sbr-prayer-time {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #FCF6BA;
+    }
+
+    .sbr-loader {
+      padding: 3rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      space: 0.5rem;
+    }
+
+    .sbr-spinner {
+      animation: spin 1s linear infinite;
+      height: 2rem;
+      width: 2rem;
+      border: 2px solid #BF953F;
+      border-bottom: 2px solid transparent;
+      border-radius: 50%;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .sbr-loader-text {
+      font-size: 0.625rem;
+      color: #78716f;
+      letter-spacing: 0.15em;
+    }
     
     /* Responsive Adjustments */
     @media (max-width: 768px) {
@@ -552,7 +702,53 @@
       </div>
     </section>
 
-    <!-- SECTION 2: PREMIUM SHORTS VIDEO FEED -->
+    <!-- SECTION 2: SBR AUTOMATED PRAYER TIMES WIDGET -->
+    <section class="sbr-prayer-section">
+      <h2 class="sbr-prayer-title">اوقات الصلاة</h2>
+      <p class="sbr-prayer-subtitle">SBR Automated Prayer System</p>
+      
+      <div class="sbr-status-box">
+        <p id="sbr-location" class="sbr-location">📍 आपकी लाइव लोकेशन खोजी जा रही है...</p>
+        <p id="sbr-next-prayer" class="sbr-next-prayer"></p>
+      </div>
+
+      <div class="sbr-audio-controller">
+        <span class="sbr-audio-label">ऑटो-अज़ान अलार्म सिस्टम</span>
+        <button id="sbr-audio-toggle" onclick="toggleSbrAudio()" class="sbr-audio-toggle">
+          🔊 अनम्यूटेड
+        </button>
+      </div>
+
+      <div id="prayer-grid" class="sbr-prayer-grid" style="display: none;">
+        <div id="card-Fajr" class="sbr-prayer-card">
+          <span class="sbr-prayer-name">Fajr (फज्र)</span>
+          <span id="fajr-time" class="sbr-prayer-time">--:--</span>
+        </div>
+        <div id="card-Dhuhr" class="sbr-prayer-card">
+          <span class="sbr-prayer-name">Dhuhr (जुहर)</span>
+          <span id="dhuhr-time" class="sbr-prayer-time">--:--</span>
+        </div>
+        <div id="card-Asr" class="sbr-prayer-card">
+          <span class="sbr-prayer-name">Asr (असर)</span>
+          <span id="asr-time" class="sbr-prayer-time">--:--</span>
+        </div>
+        <div id="card-Maghrib" class="sbr-prayer-card">
+          <span class="sbr-prayer-name">Maghrib (मगरिब)</span>
+          <span id="maghrib-time" class="sbr-prayer-time">--:--</span>
+        </div>
+        <div id="card-Isha" class="sbr-prayer-card">
+          <span class="sbr-prayer-name">Isha (इशा)</span>
+          <span id="isha-time" class="sbr-prayer-time">--:--</span>
+        </div>
+      </div>
+
+      <div id="sbr-loader" class="sbr-loader">
+        <div class="sbr-spinner"></div>
+        <p class="sbr-loader-text">SBR CORE SYNCING...</p>
+      </div>
+    </section>
+
+    <!-- SECTION 3: PREMIUM SHORTS VIDEO FEED -->
     <section>
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-semibold border-l-4 border-amber-500 pl-3">SBR Premium Shorts</h2>
@@ -565,7 +761,6 @@
           <video class="video-background" data-video-id="1" muted></video>
           <div class="video-overlay"></div>
           
-          <!-- Play/Pause Button -->
           <button class="play-pause-btn" onclick="togglePlayPause(1)">
             <svg class="play-icon" viewBox="0 0 24 24">
               <polygon points="5 3 19 12 5 21"></polygon>
@@ -576,7 +771,6 @@
             </svg>
           </button>
           
-          <!-- Action Sidebar -->
           <div class="action-sidebar">
             <div class="action-btn" onclick="toggleLike(1)">
               <div class="action-btn-icon">
@@ -610,7 +804,6 @@
             </div>
           </div>
           
-          <!-- Video Description -->
           <div class="video-description">
             <div class="video-handle">@FnaazSayyed</div>
             <div class="video-caption">Premium calligraphy shorts featuring authentic Islamic art designs and creative storytelling in one frame</div>
@@ -801,7 +994,7 @@
       </div>
     </section>
 
-    <!-- SECTION 3: SBR LIVE CHAT ROOM -->
+    <!-- SECTION 4: SBR LIVE CHAT ROOM -->
     <section>
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-semibold border-l-4 border-amber-500 pl-3">SBR Live Chat Room</h2>
@@ -829,7 +1022,7 @@
       </div>
     </section>
 
-    <!-- SECTION 4: HADITH & WRITER REFLECTIONS -->
+    <!-- SECTION 5: HADITH & WRITER REFLECTIONS -->
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Tab A: Verified Hadith (Zero-Error Mode) -->
@@ -866,6 +1059,9 @@
     </section>
 
   </main>
+
+  <!-- Audio Element for Prayer Times -->
+  <audio id="sbr-azan-player" src="https://cdn.quranicaudio.com/Adhan/faisal_al_shukairi.mp3" preload="auto"></audio>
 
   <!-- FIREBASE INTEGRATION LOGIC ENGINE -->
   <script type="module">
@@ -1003,115 +1199,195 @@
       4: { playing: false, likes: 0, comments: 0 }
     };
 
-    // Initialize video sources (fallback to placeholder)
-    function initializeVideos() {
-      const videoIds = [1, 2, 3, 4];
-      const videoSources = [
-        'https://cdn.pixabay.com/vimeo/329367624/small.mp4',
-        'https://cdn.pixabay.com/vimeo/329365906/small.mp4',
-        'https://cdn.pixabay.com/vimeo/329365728/small.mp4',
-        'https://cdn.pixabay.com/vimeo/329365628/small.mp4'
-      ];
-
-      videoIds.forEach((id, index) => {
-        const videoElement = document.querySelector(`video[data-video-id="${id}"]`);
-        if (videoElement) {
-          videoElement.src = videoSources[index % videoSources.length];
-          videoElement.addEventListener('ended', () => {
-            const playIcon = videoElement.closest('.video-card').querySelector('.play-icon');
-            const pauseIcon = videoElement.closest('.video-card').querySelector('.pause-icon');
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-            videoStates[id].playing = false;
-          });
-        }
-      });
-    }
-
-    // Toggle play/pause
-    window.togglePlayPause = function(videoId) {
-      const videoElement = document.querySelector(`video[data-video-id="${videoId}"]`);
-      const videoCard = videoElement.closest('.video-card');
-      const playIcon = videoCard.querySelector('.play-icon');
-      const pauseIcon = videoCard.querySelector('.pause-icon');
-
-      // Pause all other videos
-      document.querySelectorAll('.video-background').forEach(video => {
-        if (video.dataset.videoId !== String(videoId)) {
-          video.pause();
-          const card = video.closest('.video-card');
-          const icon = card.querySelector('.play-icon');
-          const pauseBtn = card.querySelector('.pause-icon');
-          icon.style.display = 'block';
-          pauseBtn.style.display = 'none';
-        }
-      });
-
-      if (videoStates[videoId].playing) {
-        videoElement.pause();
-        playIcon.style.display = 'block';
-        pauseIcon.style.display = 'none';
-        videoStates[videoId].playing = false;
+    function togglePlayPause(videoId) {
+      const video = document.querySelector(`[data-video-id="${videoId}"]`);
+      if (!video) return;
+      
+      const state = videoStates[videoId];
+      const btn = event.target.closest('.play-pause-btn');
+      
+      if (state.playing) {
+        video.pause();
+        state.playing = false;
       } else {
-        videoElement.play();
-        playIcon.style.display = 'none';
-        pauseIcon.style.display = 'block';
-        videoStates[videoId].playing = true;
-      }
-    };
-
-    // Toggle like with animation
-    window.toggleLike = function(videoId) {
-      const likeBtn = event.currentTarget;
-      const countElement = document.getElementById(`like-count-${videoId}`);
-      
-      likeBtn.classList.toggle('liked');
-      
-      if (videoStates[videoId].likes > 0 && likeBtn.classList.contains('liked') === false) {
-        videoStates[videoId].likes--;
-      } else if (likeBtn.classList.contains('liked')) {
-        videoStates[videoId].likes++;
+        video.play();
+        state.playing = true;
       }
       
-      countElement.textContent = videoStates[videoId].likes;
-    };
-
-    // Open comments
-    window.openComments = function(videoId) {
-      alert(`Comments for video ${videoId} - Ready for Firebase integration`);
-    };
-
-    // Share video
-    window.shareVideo = function(videoId) {
-      const shortUrl = `https://sbr.app/shorts/${videoId}`;
-      navigator.clipboard.writeText(shortUrl);
-      alert(`Short URL copied: ${shortUrl}`);
-    };
-
-    // Auto-pause videos when scrolling
-    const shortsContainer = document.getElementById('shortsContainer');
-    if (shortsContainer) {
-      shortsContainer.addEventListener('scroll', () => {
-        document.querySelectorAll('.video-background').forEach(video => {
-          const rect = video.getBoundingClientRect();
-          const isInView = rect.top >= 0 && rect.top < window.innerHeight / 2;
-          
-          if (!isInView && video.parentElement.classList.contains('video-card')) {
-            video.pause();
-            const videoId = video.dataset.videoId;
-            videoStates[videoId].playing = false;
-            const card = video.closest('.video-card');
-            const playIcon = card.querySelector('.play-icon');
-            const pauseIcon = card.querySelector('.pause-icon');
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-          }
-        });
-      });
+      btn.querySelector('.play-icon').style.display = state.playing ? 'none' : 'block';
+      btn.querySelector('.pause-icon').style.display = state.playing ? 'block' : 'none';
     }
 
-    // Initialize on page load
-    window.addEventListener('load', initializeVideos);
+    function toggleLike(videoId) {
+      const state = videoStates[videoId];
+      state.likes++;
+      document.getElementById(`like-count-${videoId}`).innerText = state.likes;
+      
+      event.target.closest('.action-btn').classList.add('liked');
+      setTimeout(() => event.target.closest('.action-btn').classList.remove('liked'), 500);
+    }
+
+    function openComments(videoId) {
+      alert(`Comments for Video ${videoId} - Feature Coming Soon!`);
+    }
+
+    function shareVideo(videoId) {
+      const shareText = `Check out this premium calligraphy short from SBR Atelier!`;
+      navigator.clipboard.writeText(shareText);
+      alert('Video link copied to clipboard!');
+    }
+  </script>
+
+  <!-- PRAYER TIMES LOGIC ENGINE - ISOLATED NAMESPACE -->
+  <script>
+    let sbrTimings = {};
+    let isAudioEnabled = true;
+    let azanTriggered = { Fajr: false, Dhuhr: false, Asr: false, Maghrib: false, Isha: false };
+    let lastResetDate = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        getSbrPrayerData("Delhi", "India");
+        setInterval(checkSbrAzanTime, 30000); 
+    });
+
+    function getSbrPrayerData(city, country) {
+        const locElement = document.getElementById('sbr-location');
+        const today = new Date();
+        
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        const dateStr = `${day}-${month}-${year}`;
+
+        const apiUrl = `https://api.aladhan.com/v1/timingsByCity/${dateStr}?city=${city}&country=${country}&method=4`;
+
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(resData => {
+                if(resData && resData.code === 200 && resData.data) {
+                    sbrTimings = resData.data.timings;
+                    if (locElement) locElement.innerText = `📍 लाइव लोकेशन: ${city}, ${country}`;
+                    renderSbrTimings();
+                }
+            })
+            .catch(err => {
+                console.error("API Sync Error:", err);
+                if (locElement) locElement.innerText = "❌ डेटा सिंक एरर (SBR Core)";
+            });
+    }
+
+    function renderSbrTimings() {
+        if (!sbrTimings.Fajr) return;
+        
+        document.getElementById('fajr-time').innerText = formatSbrTime(sbrTimings.Fajr);
+        document.getElementById('dhuhr-time').innerText = formatSbrTime(sbrTimings.Dhuhr);
+        document.getElementById('asr-time').innerText = formatSbrTime(sbrTimings.Asr);
+        document.getElementById('maghrib-time').innerText = formatSbrTime(sbrTimings.Maghrib);
+        document.getElementById('isha-time').innerText = formatSbrTime(sbrTimings.Isha);
+        
+        const loader = document.getElementById('sbr-loader');
+        const grid = document.getElementById('prayer-grid');
+        if (loader) loader.style.display = 'none';
+        if (grid) grid.style.display = 'block';
+        
+        checkSbrAzanTime(); 
+    }
+
+    function checkSbrAzanTime() {
+        if (!sbrTimings.Fajr) return;
+
+        const now = new Date();
+        const todayDateString = now.toDateString();
+        const currentHrs = String(now.getHours()).padStart(2, '0');
+        const currentMins = String(now.getMinutes()).padStart(2, '0');
+        const currentTimeStr = `${currentHrs}:${currentMins}`;
+
+        if (lastResetDate !== todayDateString) {
+            azanTriggered = { Fajr: false, Dhuhr: false, Asr: false, Maghrib: false, Isha: false };
+            lastResetDate = todayDateString;
+            getSbrPrayerData("Delhi", "India"); 
+            return; 
+        }
+
+        const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        let nextPrayerName = "Fajr";
+        let nextPrayerTime = sbrTimings.Fajr;
+        let foundNext = false;
+
+        prayers.forEach(p => {
+            const card = document.getElementById(`card-${p}`);
+            if(card) {
+                card.classList.remove('active');
+            }
+        });
+
+        for (let i = 0; i < prayers.length; i++) {
+            const pName = prayers[i];
+            const pTime = sbrTimings[pName]; 
+
+            if (currentTimeStr === pTime && !azanTriggered[pName]) {
+                playSbrAzan();
+                azanTriggered[pName] = true; 
+            }
+
+            if (currentTimeStr < pTime && !foundNext) {
+                nextPrayerName = pName;
+                nextPrayerTime = pTime;
+                foundNext = true;
+                
+                const activeCard = document.getElementById(`card-${pName}`);
+                if(activeCard) {
+                    activeCard.classList.add('active');
+                }
+            }
+        }
+
+        if (!foundNext) {
+            nextPrayerName = "Fajr";
+            nextPrayerTime = sbrTimings.Fajr;
+            const fajrCard = document.getElementById(`card-Fajr`);
+            if(fajrCard) {
+                fajrCard.classList.add('active');
+            }
+        }
+
+        const nextPrayerText = document.getElementById('sbr-next-prayer');
+        if (nextPrayerText) {
+            nextPrayerText.innerText = `अगली नमाज़: ${nextPrayerName} (${formatSbrTime(nextPrayerTime)})`;
+        }
+    }
+
+    function playSbrAzan() {
+        const player = document.getElementById('sbr-azan-player');
+        if (isAudioEnabled && player) {
+            player.play().catch(e => console.log("Audio play gesture restriction. Waiting for user interaction."));
+        }
+    }
+
+    window.toggleSbrAudio = function() {
+        isAudioEnabled = !isAudioEnabled;
+        const btn = document.getElementById('sbr-audio-toggle');
+        if(!btn) return;
+        
+        if(isAudioEnabled) {
+            btn.innerText = "🔊 अनम्यूटेड";
+            btn.classList.remove('bg-red-950/40');
+        } else {
+            btn.innerText = "🔇 म्यूटेड";
+            btn.classList.add('bg-red-950/40');
+            const player = document.getElementById('sbr-azan-player');
+            if(player) player.pause();
+        }
+    };
+
+    function formatSbrTime(timeStr) {
+        if(!timeStr) return "--:--";
+        const [hours, minutes] = timeStr.split(':');
+        let h = parseInt(hours);
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 || 12;
+        return `${h}:${minutes} ${ampm}`;
+    }
   </script>
 
 </body>

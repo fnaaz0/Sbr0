@@ -4,15 +4,304 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SBR Super-App | By Fnaaz</title>
-  <script src="tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    * { box-sizing: border-box; }
+    
+    /* Premium Gold & Black Theme */
     .gold-gradient { background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 100%); }
     .gold-text { background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    /* Shorts Vertical Scroll Container */
+    .shorts-container {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #BF953F #1c1917;
+    }
+    
+    .shorts-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .shorts-container::-webkit-scrollbar-track {
+      background: #1c1917;
+    }
+    
+    .shorts-container::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #BF953F 0%, #B38728 100%);
+      border-radius: 4px;
+    }
+    
+    .shorts-container::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #FCF6BA 0%, #BF953F 100%);
+    }
+    
+    /* Video Card Snap Point */
+    .video-card {
+      height: 100vh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Video Background */
+    .video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #1c1917;
+    }
+    
+    /* Video Overlay (Dark gradient for text readability) */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(28, 25, 23, 0) 0%, rgba(28, 25, 23, 0.3) 50%, rgba(28, 25, 23, 0.8) 100%);
+      pointer-events: none;
+    }
+    
+    /* Play/Pause Button */
+    .play-pause-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      background: rgba(28, 25, 23, 0.7);
+      border: 3px solid #BF953F;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .play-pause-btn:hover {
+      background: rgba(191, 149, 63, 0.3);
+      transform: translate(-50%, -50%) scale(1.1);
+      box-shadow: 0 0 30px rgba(191, 149, 63, 0.6);
+    }
+    
+    .play-pause-btn svg {
+      width: 40px;
+      height: 40px;
+      fill: #BF953F;
+      transition: all 0.3s ease;
+    }
+    
+    /* Action Sidebar */
+    .action-sidebar {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .action-btn-icon {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(28, 25, 23, 0.8);
+      border: 2px solid #BF953F;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .action-btn:hover .action-btn-icon {
+      background: rgba(191, 149, 63, 0.3);
+      transform: scale(1.15);
+      box-shadow: 0 0 20px rgba(191, 149, 63, 0.5);
+    }
+    
+    .action-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: #BF953F;
+      stroke-width: 2;
+      fill: none;
+      transition: all 0.3s ease;
+    }
+    
+    .action-btn.liked svg {
+      fill: #BF953F;
+      stroke: #BF953F;
+    }
+    
+    .action-btn-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: #FCF6BA;
+      text-align: center;
+      min-width: 30px;
+    }
+    
+    /* Video Description Area */
+    .video-description {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(28, 25, 23, 0) 0%, rgba(28, 25, 23, 0.95) 100%);
+      z-index: 15;
+      color: #f5f5f4;
+    }
+    
+    .video-handle {
+      font-size: 14px;
+      font-weight: 700;
+      color: #BF953F;
+      margin-bottom: 6px;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    .video-caption {
+      font-size: 14px;
+      line-height: 1.4;
+      color: #e7e5e4;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .video-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .video-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: linear-gradient(135deg, #BF953F 0%, #B38728 100%);
+      color: #1c1917;
+      border-radius: 12px;
+      font-weight: 600;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .play-pause-btn {
+        width: 60px;
+        height: 60px;
+        border-width: 2px;
+      }
+      
+      .play-pause-btn svg {
+        width: 30px;
+        height: 30px;
+      }
+      
+      .action-sidebar {
+        right: 12px;
+        gap: 16px;
+      }
+      
+      .action-btn-icon {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .action-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+      
+      .action-btn-count {
+        font-size: 10px;
+      }
+      
+      .video-description {
+        padding: 16px;
+      }
+      
+      .video-handle {
+        font-size: 12px;
+      }
+      
+      .video-caption {
+        font-size: 12px;
+      }
+      
+      .video-tag {
+        font-size: 9px;
+        padding: 3px 8px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .play-pause-btn {
+        width: 50px;
+        height: 50px;
+        border-width: 2px;
+      }
+      
+      .play-pause-btn svg {
+        width: 24px;
+        height: 24px;
+      }
+      
+      .action-btn-icon {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .action-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    /* Animations */
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .shimmer { animation: shimmer 2s ease-in-out infinite; }
   </style>
 </head>
 <body class="bg-stone-950 text-stone-100 min-h-screen font-sans">
 
-  <!-- Header Section (यहाँ आपका और अम्मी का नाम पूरी दुनिया को दिखेगा) -->
+  <!-- Header Section -->
   <header class="border-b border-stone-800 bg-stone-900/50 backdrop-blur p-4 sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
       <div>
@@ -49,7 +338,256 @@
       </div>
     </section>
 
-    <!-- SECTION 2: HADITH & WRITER REFLECTIONS -->
+    <!-- SECTION 2: PREMIUM SHORTS VIDEO FEED -->
+    <section>
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-semibold border-l-4 border-amber-500 pl-3">SBR Premium Shorts</h2>
+        <span class="text-sm text-stone-400">Vertical Video Feed</span>
+      </div>
+      
+      <div class="shorts-container" id="shortsContainer">
+        <!-- VIDEO CARD 1 -->
+        <div class="video-card">
+          <video class="video-background" data-video-id="1" muted></video>
+          <div class="video-overlay"></div>
+          
+          <!-- Play/Pause Button -->
+          <button class="play-pause-btn" onclick="togglePlayPause(1)">
+            <svg class="play-icon" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21"></polygon>
+            </svg>
+            <svg class="pause-icon" style="display: none;" viewBox="0 0 24 24">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          
+          <!-- Action Sidebar -->
+          <div class="action-sidebar">
+            <div class="action-btn" onclick="toggleLike(1)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="like-count-1">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="openComments(1)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 11.504c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8h.5v2.5c2.85-1.45 5.5-4 5.5-7.5 1.47-1.25 2-2.85 2-4.5"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="comment-count-1">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="shareVideo(1)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+              </div>
+              <div class="action-btn-count">Share</div>
+            </div>
+          </div>
+          
+          <!-- Video Description -->
+          <div class="video-description">
+            <div class="video-handle">@FnaazSayyed</div>
+            <div class="video-caption">Premium calligraphy shorts featuring authentic Islamic art designs and creative storytelling in one frame</div>
+            <div class="video-tags">
+              <div class="video-tag">#Calligraphy</div>
+              <div class="video-tag">#IslamicArt</div>
+              <div class="video-tag">#SBRAtelier</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIDEO CARD 2 -->
+        <div class="video-card">
+          <video class="video-background" data-video-id="2" muted></video>
+          <div class="video-overlay"></div>
+          
+          <button class="play-pause-btn" onclick="togglePlayPause(2)">
+            <svg class="play-icon" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21"></polygon>
+            </svg>
+            <svg class="pause-icon" style="display: none;" viewBox="0 0 24 24">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          
+          <div class="action-sidebar">
+            <div class="action-btn" onclick="toggleLike(2)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="like-count-2">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="openComments(2)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 11.504c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8h.5v2.5c2.85-1.45 5.5-4 5.5-7.5 1.47-1.25 2-2.85 2-4.5"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="comment-count-2">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="shareVideo(2)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+              </div>
+              <div class="action-btn-count">Share</div>
+            </div>
+          </div>
+          
+          <div class="video-description">
+            <div class="video-handle">@CreativeArtisan</div>
+            <div class="video-caption">Witness the seamless blend of tradition and modern design techniques in our latest collection showcase</div>
+            <div class="video-tags">
+              <div class="video-tag">#ArtisanCraft</div>
+              <div class="video-tag">#Design</div>
+              <div class="video-tag">#Tradition</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIDEO CARD 3 -->
+        <div class="video-card">
+          <video class="video-background" data-video-id="3" muted></video>
+          <div class="video-overlay"></div>
+          
+          <button class="play-pause-btn" onclick="togglePlayPause(3)">
+            <svg class="play-icon" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21"></polygon>
+            </svg>
+            <svg class="pause-icon" style="display: none;" viewBox="0 0 24 24">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          
+          <div class="action-sidebar">
+            <div class="action-btn" onclick="toggleLike(3)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="like-count-3">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="openComments(3)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 11.504c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8h.5v2.5c2.85-1.45 5.5-4 5.5-7.5 1.47-1.25 2-2.85 2-4.5"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="comment-count-3">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="shareVideo(3)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+              </div>
+              <div class="action-btn-count">Share</div>
+            </div>
+          </div>
+          
+          <div class="video-description">
+            <div class="video-handle">@LuxuryDesigns</div>
+            <div class="video-caption">Exclusive behind-the-scenes look at how our artisans meticulously craft each piece with precision and passion</div>
+            <div class="video-tags">
+              <div class="video-tag">#BehindTheScenes</div>
+              <div class="video-tag">#Craftsmanship</div>
+              <div class="video-tag">#Premium</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIDEO CARD 4 -->
+        <div class="video-card">
+          <video class="video-background" data-video-id="4" muted></video>
+          <div class="video-overlay"></div>
+          
+          <button class="play-pause-btn" onclick="togglePlayPause(4)">
+            <svg class="play-icon" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21"></polygon>
+            </svg>
+            <svg class="pause-icon" style="display: none;" viewBox="0 0 24 24">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          
+          <div class="action-sidebar">
+            <div class="action-btn" onclick="toggleLike(4)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="like-count-4">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="openComments(4)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 11.504c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8h.5v2.5c2.85-1.45 5.5-4 5.5-7.5 1.47-1.25 2-2.85 2-4.5"></path>
+                </svg>
+              </div>
+              <div class="action-btn-count" id="comment-count-4">0</div>
+            </div>
+            
+            <div class="action-btn" onclick="shareVideo(4)">
+              <div class="action-btn-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+              </div>
+              <div class="action-btn-count">Share</div>
+            </div>
+          </div>
+          
+          <div class="video-description">
+            <div class="video-handle">@SBRAtelier</div>
+            <div class="video-caption">Join our community of art enthusiasts and collectors celebrating the beauty of Islamic calligraphy today</div>
+            <div class="video-tags">
+              <div class="video-tag">#Community</div>
+              <div class="video-tag">#ArtLovers</div>
+              <div class="video-tag">#Culture</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: HADITH & WRITER REFLECTIONS -->
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Tab A: Verified Hadith (Zero-Error Mode) -->
@@ -73,7 +611,7 @@
           <h2 class="text-lg font-semibold text-stone-200">Fnaaz's Reflections</h2>
         </div>
         <div class="space-y-4">
-          <textarea id="quote-input" rows="3" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-3 text-sm text-stone-200 focus:outline-none focus:border-amber-500" placeholder="Write your new thought or quote here..."></textarea>
+          <textarea id="quote-input" rows="3" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-3 text-sm text-stone-200 focus:outline-none focus:border-amber-500" placeholder="Write your thoughts..."></textarea>
           <div class="flex justify-between items-center">
             <button onclick="shareToWhatsApp('Sample quote from SBR App')" class="text-xs text-stone-400 hover:text-stone-200 flex items-center space-x-1">
               <span>📋 Copy for WhatsApp Status</span>
@@ -89,12 +627,12 @@
 
   <!-- FIREBASE INTEGRATION LOGIC ENGINE -->
   <script type="module">
-    import { initializeApp } from "gstatic.com";
-    import { getFirestore, collection, addDoc } from "gstatic.com";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBE_Fk_JrEn12ipD_koy957NLxsH6A_aQE",
-      authDomain: "firebaseapp.com",
+      authDomain: "sbrf-84bbd.firebaseapp.com",
       projectId: "sbrf-84bbd",
       storageBucket: "sbrf-84bbd.firebasestorage.app",
       messagingSenderId: "728088345772",
@@ -128,6 +666,127 @@
       alert("Text copied for Status!");
     };
   </script>
+
+  <!-- SHORTS VIDEO FEED LOGIC ENGINE -->
+  <script>
+    // Store video states
+    const videoStates = {
+      1: { playing: false, likes: 0, comments: 0 },
+      2: { playing: false, likes: 0, comments: 0 },
+      3: { playing: false, likes: 0, comments: 0 },
+      4: { playing: false, likes: 0, comments: 0 }
+    };
+
+    // Initialize video sources (fallback to placeholder)
+    function initializeVideos() {
+      const videoIds = [1, 2, 3, 4];
+      const videoSources = [
+        'https://cdn.pixabay.com/vimeo/329367624/small.mp4',
+        'https://cdn.pixabay.com/vimeo/329365906/small.mp4',
+        'https://cdn.pixabay.com/vimeo/329365728/small.mp4',
+        'https://cdn.pixabay.com/vimeo/329365628/small.mp4'
+      ];
+
+      videoIds.forEach((id, index) => {
+        const videoElement = document.querySelector(`video[data-video-id="${id}"]`);
+        if (videoElement) {
+          videoElement.src = videoSources[index % videoSources.length];
+          videoElement.addEventListener('ended', () => {
+            const playIcon = videoElement.closest('.video-card').querySelector('.play-icon');
+            const pauseIcon = videoElement.closest('.video-card').querySelector('.pause-icon');
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            videoStates[id].playing = false;
+          });
+        }
+      });
+    }
+
+    // Toggle play/pause
+    window.togglePlayPause = function(videoId) {
+      const videoElement = document.querySelector(`video[data-video-id="${videoId}"]`);
+      const videoCard = videoElement.closest('.video-card');
+      const playIcon = videoCard.querySelector('.play-icon');
+      const pauseIcon = videoCard.querySelector('.pause-icon');
+
+      // Pause all other videos
+      document.querySelectorAll('.video-background').forEach(video => {
+        if (video.dataset.videoId !== String(videoId)) {
+          video.pause();
+          const card = video.closest('.video-card');
+          const icon = card.querySelector('.play-icon');
+          const pauseBtn = card.querySelector('.pause-icon');
+          icon.style.display = 'block';
+          pauseBtn.style.display = 'none';
+        }
+      });
+
+      if (videoStates[videoId].playing) {
+        videoElement.pause();
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        videoStates[videoId].playing = false;
+      } else {
+        videoElement.play();
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        videoStates[videoId].playing = true;
+      }
+    };
+
+    // Toggle like with animation
+    window.toggleLike = function(videoId) {
+      const likeBtn = event.currentTarget;
+      const countElement = document.getElementById(`like-count-${videoId}`);
+      
+      likeBtn.classList.toggle('liked');
+      
+      if (videoStates[videoId].likes > 0 && likeBtn.classList.contains('liked') === false) {
+        videoStates[videoId].likes--;
+      } else if (likeBtn.classList.contains('liked')) {
+        videoStates[videoId].likes++;
+      }
+      
+      countElement.textContent = videoStates[videoId].likes;
+    };
+
+    // Open comments
+    window.openComments = function(videoId) {
+      alert(`Comments for video ${videoId} - Ready for Firebase integration`);
+    };
+
+    // Share video
+    window.shareVideo = function(videoId) {
+      const shortUrl = `https://sbr.app/shorts/${videoId}`;
+      navigator.clipboard.writeText(shortUrl);
+      alert(`Short URL copied: ${shortUrl}`);
+    };
+
+    // Auto-pause videos when scrolling
+    const shortsContainer = document.getElementById('shortsContainer');
+    if (shortsContainer) {
+      shortsContainer.addEventListener('scroll', () => {
+        document.querySelectorAll('.video-background').forEach(video => {
+          const rect = video.getBoundingClientRect();
+          const isInView = rect.top >= 0 && rect.top < window.innerHeight / 2;
+          
+          if (!isInView && video.parentElement.classList.contains('video-card')) {
+            video.pause();
+            const videoId = video.dataset.videoId;
+            videoStates[videoId].playing = false;
+            const card = video.closest('.video-card');
+            const playIcon = card.querySelector('.play-icon');
+            const pauseIcon = card.querySelector('.pause-icon');
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Initialize on page load
+    window.addEventListener('load', initializeVideos);
+  </script>
+
 </body>
-  </html>
-  
+</html>

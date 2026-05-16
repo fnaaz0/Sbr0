@@ -1383,6 +1383,18 @@ u<!DOCTYPE html>
         h = h % 12 || 12;
         return `${h}:${minutes} ${ampm}`;
     }
+    document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("button, a, span").forEach(function(element) {
+    if (element.textContent.includes("Buy Securely")) {
+      element.textContent = "View Portfolio";
+      element.setAttribute("onclick", "window.open('https://gumroad.com', '_blank')");
+    }
+    if (element.textContent.includes("$49.00")) {
+      element.textContent = "Premium Art";
+    }
+  });
+});
+    
   </script>
 
 </body>

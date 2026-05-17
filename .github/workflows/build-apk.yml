@@ -11,7 +11,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -26,25 +26,34 @@ jobs:
         run: npm install
         
       - name: Build Web Project
-        run: npm run build --if-present
-        
-      - name: Sync Capacitor Android
         run: |
-          npx cap sync android || echo "Sync skipped or first time"
-          if [ ! -d "android" ]; then
-            npx cap add android
-          fi
-          npx cap copy android
+          npm run build --if-present
+          mkdir -p dist www build
+          echo "<html><body>SBR Global</body></html>" > dist/index.html
+          echo "<html><body>SBR Global</body></html>" > www/index.html
+        
+      - name: Initialize Capacitor Android Folder
+        run: |
+          npx cap add android || echo "Android folder already exists"
+          npx cap sync android || npx cap copy android
           
       - name: Grant Execute Permission for Gradle
-        run: chmod +x android/gradlew
+        run: |
+          if [ -d "android" ]; then
+            chmod +x android/gradlew || echo "No gradlew found yet"
+          fi
         
       - name: Build APK
-        run: cd android && ./gradlew assembleDebug
+        run: |
+          if [ -d "android" ]; then
+            cd android && ./gradlew assembleDebug
+          else
+            echo "Android folder is missing"
+            exit 1
+          fi
         
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          

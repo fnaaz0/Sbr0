@@ -1396,3 +1396,49 @@ u<!DOCTYPE html>
 </script>
 </body>
 </html>
+<!-- SBR GLOBAL CORE RESOLUTION SYSTEM (DO NOT REMOVE) -->
+<script type="module">
+    function fixSBRGlobalEngine() {
+        const statusEl = document.getElementById("locationText") || document.querySelector('.location-status') || document.querySelector('[id*="location"]');
+        if (statusEl) statusEl.innerText = "📍 SBR GLOBAL CORE SYNCING...";
+
+        if (!navigator.geolocation) {
+            fallbackSBRGlobal("GPS Not Supported");
+            return;
+        }
+
+        // 5 सेकंड का सख्त टाइमआउट: ऐप कभी नहीं अटकेगी
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                if (statusEl) statusEl.innerText = `📍 Core Active: ${lat.toFixed(2)}, ${lon.toFixed(2)}`;
+                if (typeof loadPrayerTimes === "function") loadPrayerTimes(lat, lon);
+                else if (typeof fetchPrayerTimes === "function") fetchPrayerTimes(lat, lon);
+            },
+            (error) => {
+                console.warn("Location timed out or denied. Activating global backup.");
+                fallbackSBRGlobal("SBR Global Core Active (Makkah Time)");
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+    }
+
+    function fallbackSBRGlobal(message) {
+        const statusEl = document.getElementById("locationText") || document.querySelector('.location-status') || document.querySelector('[id*="location"]');
+        if (statusEl) statusEl.innerText = `📍 ${message}`;
+        if (typeof loadPrayerTimes === "function") loadPrayerTimes(21.42, 39.82);
+        else if (typeof fetchPrayerTimes === "function") fetchPrayerTimes(21.42, 39.82);
+    }
+
+    // पुराने अटके हुए फंक्शन को ओवरराइड (Override) करना
+    window.startSBRCore = fixSBRGlobalEngine;
+    window.getSBRLocation = fixSBRGlobalEngine;
+
+    // लोड होते ही तुरंत रन करें
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", fixSBRGlobalEngine);
+    } else {
+        fixSBRGlobalEngine();
+    }
+</script>

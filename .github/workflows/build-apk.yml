@@ -18,10 +18,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: 'gradle'
           
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        
       - name: Install dependencies
         run: npm install
         
@@ -57,3 +55,4 @@ jobs:
         with:
           name: debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          

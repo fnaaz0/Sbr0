@@ -32,4 +32,5 @@ jobs:
       run: |
         # If you don't have a build script, this fallback ensures a www or dist folder exists
         npm run build -
+
         

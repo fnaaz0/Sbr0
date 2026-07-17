@@ -1,39 +1,482 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>SBR Super-App</title>
-                <style>
-                        /* Golden Black Theme */
-                                body {
-                                            background-color: #0a0a0a;
-                                                        color: #d4af37;
-                                                                    font-family: Arial, sans-serif;
-                                                                                margin: 0;
-                                                                                            padding: 20px;
-                                                                                                        text-align: center;
-                                                                                                                }
-                                                                                                                        h1 {
-                                                                                                                                    color: #d4af37;
-                                                                                                                                                border-bottom: 2px solid #d4af37;
-                                                                                                                                                            padding-bottom: 10px;
-                                                                                                                                                                    }
-                                                                                                                                                                            .container {
-                                                                                                                                                                                        border: 1px solid #d4af37;
-                                                                                                                                                                                                    padding: 20px;
-                                                                                                                                                                                                                border-radius: 10px;
-                                                                                                                                                                                                                            background-color: #1a1a1a;
-                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                        </style>
-                                                                                                                                                                                                                                        </head>
-                                                                                                                                                                                                                                        <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SBR Super-App Dashboard - Prayer Times, Date & Time, and more">
+    <title>SBR Super-App Dashboard</title>
+    <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-                                                                                                                                                                                                                                            <div class="container">
-                                                                                                                                                                                                                                                    <h1>SBR Super-App</h1>
-                                                                                                                                                                                                                                                            <p>Khush amdeed! Aapki Golden Black theme active ho gayi hai.</p>
-                                                                                                                                                                                                                                                                </div>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
 
-                                                                                                                                                                                                                                                                </body>
-                                                                                                                                                                                                                                                                </html>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #d4af37;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== HEADER STYLES ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #d4af37;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .tagline {
+            color: #a68a4a;
+            font-size: 0.95rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* ===== DATETIME CARD ===== */
+        .datetime-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            border: 1px solid #d4af37;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .datetime-card:hover {
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+            border-color: #e5c158;
+        }
+
+        .datetime-label {
+            color: #a68a4a;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .datetime-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .datetime-item {
+            text-align: center;
+        }
+
+        .datetime-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #d4af37;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .datetime-unit {
+            color: #a68a4a;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        /* ===== GRID CONTAINER ===== */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* ===== CARD STYLES ===== */
+        .card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.03));
+            border: 1.5px solid #d4af37;
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+            transform: translateY(-4px);
+            border-color: #e5c158;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-title {
+            color: #d4af37;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            display: inline-block;
+        }
+
+        .card-content {
+            color: #b8b8b8;
+            line-height: 1.8;
+        }
+
+        /* ===== PRAYER TIMES CARD ===== */
+        .prayer-times {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .prayer-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .prayer-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+        }
+
+        .prayer-name {
+            color: #a68a4a;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .prayer-time {
+            color: #d4af37;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ===== FEATURE PLACEHOLDER ===== */
+        .feature-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: #a68a4a;
+            padding: 20px;
+        }
+
+        .feature-placeholder-icon {
+            font-size: 3rem;
+            opacity: 0.6;
+        }
+
+        .feature-placeholder-text {
+            text-align: center;
+            font-weight: 300;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            color: #a68a4a;
+            font-size: 0.85rem;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .datetime-display {
+                gap: 20px;
+            }
+
+            .datetime-value {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+            }
+
+            .prayer-times {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 10px;
+            }
+
+            .prayer-time {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .header {
+                margin-bottom: 25px;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+
+            .datetime-card {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .datetime-display {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .datetime-value {
+                font-size: 1.5rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .prayer-times {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .prayer-time {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card, .datetime-card, .header {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* ===== SCROLLBAR STYLING ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e5c158;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">🕌 SBR SUPER-APP</div>
+        <div class="tagline">Premium Islamic Dashboard Experience</div>
+    </div>
+
+    <!-- DATE & TIME SECTION -->
+    <div class="datetime-card">
+        <div class="datetime-label">Current Date & Time</div>
+        <div class="datetime-display">
+            <div class="datetime-item">
+                <div class="datetime-value" id="currentDate">--/--/----</div>
+                <div class="datetime-unit">Date</div>
+            </div>
+            <div class="datetime-item">
+                <div class="datetime-value" id="currentTime">--:--:--</div>
+                <div class="datetime-unit">Time</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN GRID CONTAINER -->
+    <div class="grid-container">
+        <!-- PRAYER TIMES CARD -->
+        <div class="card">
+            <div class="card-title">
+                <span class="card-icon">🕐</span>
+                Prayer Times
+            </div>
+            <div class="card-content">
+                <div class="prayer-times">
+                    <div class="prayer-item">
+                        <div class="prayer-name">Fajr</div>
+                        <div class="prayer-time">05:30</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Dhuhr</div>
+                        <div class="prayer-time">12:45</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Asr</div>
+                        <div class="prayer-time">15:45</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Maghrib</div>
+                        <div class="prayer-time">18:20</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">Isha</div>
+                        <div class="prayer-time">19:45</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUTURE FEATURE #1 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="card-icon">📖</span>
+                Quran Reader
+            </div>
+            <div class="card-content">
+                <div class="feature-placeholder">
+                    <div class="feature-placeholder-icon">📚</div>
+                    <div class="feature-placeholder-text">
+                        Coming Soon<br>
+                        <small>Interactive Quranic experience</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUTURE FEATURE #2 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="card-icon">📍</span>
+                Location Services
+            </div>
+            <div class="card-content">
+                <div class="feature-placeholder">
+                    <div class="feature-placeholder-icon">🌍</div>
+                    <div class="feature-placeholder-text">
+                        Coming Soon<br>
+                        <small>Location-based prayer times</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>&copy; 2026 SBR Super-App. All rights reserved. | Deployed on GitHub Pages</p>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Update Date and Time
+        function updateDateTime() {
+            const now = new Date();
+
+            // Format Date
+            const dateOptions = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            };
+            const dateString = now.toLocaleDateString('en-US', dateOptions);
+            document.getElementById('currentDate').textContent = dateString;
+
+            // Format Time
+            const timeOptions = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const timeString = now.toLocaleTimeString('en-US', timeOptions);
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        // Initial call and update every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Log deployment confirmation
+        console.log('✨ SBR Super-App Dashboard Loaded Successfully!');
+        console.log('🚀 Ready for GitHub Pages Deployment');
+    </script>
+</body>
+</html>

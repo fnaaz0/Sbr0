@@ -1,0 +1,35 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export default function RabtModule() {
+  const navigate = useNavigate();
+
+  const sbrLinks = [
+    { name: 'SBR Feed', route: '/sbr-naqsh', desc: 'Visual inspirations & updates' },
+    { name: 'SBR Talk', route: '/sbr-community', desc: 'Join our discussions' },
+    { name: 'SBR Chat', route: '/sbr-support', desc: 'Direct help & messaging' },
+    { name: 'SBR View', route: '/sbr-tabeer', desc: 'Watch our latest content' }
+  ];
+
+  return (
+    <div style={{ padding: '25px', color: '#fff', background: '#0a0a0a', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+      <h2 style={{ color: '#FFD700', marginBottom: '10px' }}>SBR Rabt: Unified Network</h2>
+      <p style={{ color: '#ccc', marginBottom: '30px' }}>Choose your path within SBR Global.</p>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
+        {sbrLinks.map((link) => (
+          <div key={link.name} style={{ border: '1px solid #333', padding: '20px', borderRadius: '12px', background: '#111' }}>
+            <h3 style={{ margin: '0 0 10px 0' }}>{link.name}</h3>
+            <p style={{ fontSize: '0.9rem', color: '#888', marginBottom: '15px' }}>{link.desc}</p>
+            <button 
+              onClick={() => navigate(link.route)} 
+              style={{ background: '#FFD700', border: 'none', padding: '10px 15px', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', width: '100%' }}
+            >
+              Access SBR
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

@@ -1,4 +1,4 @@
-let sbrTimings = {};
+et sbrTimings = {};
 let isAudioEnabled = true;
 let azanTriggered = { Fajr: false, Dhuhr: false, Asr: false, Maghrib: false, Isha: false };
 let lastResetDate = null;

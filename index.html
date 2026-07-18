@@ -794,7 +794,7 @@
 
                         <div class="module-card mt-20">
                             <h3>✨ About SBR Naqsh</h3>
-                            <p>Arabic calligraphy is one of the most prestigious and celebrated art forms in Islamic culture. It beautifully combines artistic expression with spiritual reverence, creating visual representations of divine words.</p>
+                            <p>Arabic calligraphy is one of the most prestigious and celebrated art forms in Islamic culture. It beautifully combines artistic expression with spiritual reverence, capturing the essence of Islamic values and traditions through carefully crafted letterforms.</p>
                         </div>
                     </div>
                 </div>
@@ -811,13 +811,6 @@
                             </div>
 
                             <div class="social-card">
-                                <span class="social-icon">𝕏</span>
-                                <div class="social-name">X (Twitter)</div>
-                                <div class="social-description">Stay updated with trending topics</div>
-                                <button class="btn mt-20" style="width: 90%;">Connect</button>
-                            </div>
-
-                            <div class="social-card">
                                 <span class="social-icon">f</span>
                                 <div class="social-name">Facebook</div>
                                 <div class="social-description">Connect with your community</div>
@@ -825,23 +818,16 @@
                             </div>
 
                             <div class="social-card">
-                                <span class="social-icon">in</span>
-                                <div class="social-name">LinkedIn</div>
-                                <div class="social-description">Professional networking platform</div>
-                                <button class="btn mt-20" style="width: 90%;">Connect</button>
-                            </div>
-
-                            <div class="social-card">
-                                <span class="social-icon">📱</span>
-                                <div class="social-name">TikTok</div>
-                                <div class="social-description">Create and share short videos</div>
-                                <button class="btn mt-20" style="width: 90%;">Connect</button>
-                            </div>
-
-                            <div class="social-card">
                                 <span class="social-icon">💬</span>
                                 <div class="social-name">WhatsApp</div>
                                 <div class="social-description">Direct messaging and communication</div>
+                                <button class="btn mt-20" style="width: 90%;">Connect</button>
+                            </div>
+
+                            <div class="social-card">
+                                <span class="social-icon">▶️</span>
+                                <div class="social-name">YouTube</div>
+                                <div class="social-description">Watch and share video content</div>
                                 <button class="btn mt-20" style="width: 90%;">Connect</button>
                             </div>
                         </div>
@@ -1004,35 +990,36 @@
                             <div class="module-card text-center">
                                 <div style="font-size: 2.5rem; margin: 20px 0;">📚</div>
                                 <h3>Books & Texts</h3>
-                                <p>Islamic literature and educational materials</p>
+                                <p>Islamic books, manuscripts, and religious texts</p>
                                 <button class="btn mt-20">Browse</button>
                             </div>
 
                             <div class="module-card text-center">
                                 <div style="font-size: 2.5rem; margin: 20px 0;">🧵</div>
                                 <h3>Textiles</h3>
-                                <p>Traditional fabrics and crafted textiles</p>
+                                <p>Traditional fabrics, carpets, and woven goods</p>
                                 <button class="btn mt-20">Browse</button>
                             </div>
 
                             <div class="module-card text-center">
                                 <div style="font-size: 2.5rem; margin: 20px 0;">🏺</div>
-                                <h3>Pottery & Decor</h3>
-                                <p>Handmade pottery and home decoration items</p>
+                                <h3>Ceramics</h3>
+                                <p>Handmade ceramics and pottery items</p>
                                 <button class="btn mt-20">Browse</button>
                             </div>
 
                             <div class="module-card text-center">
-                                <div style="font-size: 2.5rem; margin: 20px 0;">🕯️</div>
-                                <h3>Fragrances & Oils</h3>
-                                <p>Authentic oils, oud, and aromatic products</p>
+                                <div style="font-size: 2.5rem; margin: 20px 0;">✨</div>
+                                <h3>Special Items</h3>
+                                <p>Unique and rare Islamic artifacts</p>
                                 <button class="btn mt-20">Browse</button>
                             </div>
                         </div>
 
                         <div class="module-card mt-20">
-                            <h3>🌍 Support Artisans</h3>
-                            <p>Every purchase directly supports artisans and small businesses. By shopping through SBR Bazar, you're helping preserve traditional Islamic craftsmanship and supporting communities worldwide.</p>
+                            <h3>🌍 Global Artisans</h3>
+                            <p style="margin-bottom: 15px;">Support craftspeople from across the Islamic world and beyond. Every purchase directly supports traditional artisans and their families.</p>
+                            <button class="btn">Meet the Artisans</button>
                         </div>
                     </div>
                 </div>
@@ -1044,85 +1031,72 @@
         // Module Navigation System
         const navButtons = document.querySelectorAll('.nav-button');
         const moduleContainers = document.querySelectorAll('.module-container');
-        const moduleTitleIcon = document.getElementById('moduleTitleIcon');
-        const moduleTitleText = document.getElementById('moduleTitleText');
-        const moduleSubtitle = document.getElementById('moduleSubtitle');
 
-        // Module metadata
-        const moduleMetadata = {
-            dashboard: {
-                title: 'SBR Markaz',
-                subtitle: 'Welcome to the SBR Master Super-App',
-                icon: '📊'
-            },
-            hadith: {
-                title: 'SBR Noor',
-                subtitle: 'Daily Islamic teachings and wisdom',
-                icon: '📖'
-            },
-            calligraphy: {
-                title: 'SBR Naqsh',
-                subtitle: 'Arabic calligraphy and Islamic art',
-                icon: '✨'
-            },
-            social: {
-                title: 'SBR Rabt',
-                subtitle: 'Connect with social platforms',
-                icon: '📱'
-            },
-            canva: {
-                title: 'SBR Hunar',
-                subtitle: 'Design and create visual content',
-                icon: '🎨'
-            },
-            youtube: {
-                title: 'SBR Tabeer',
-                subtitle: 'Discover and manage video content',
-                icon: '🎬'
-            },
-            etsy: {
-                title: 'SBR Bazar',
-                subtitle: 'Explore Islamic artisan products',
-                icon: '🛍️'
-            }
-        };
-
-        // Add click event listeners to nav buttons
-        navButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const module = this.getAttribute('data-module');
-                switchModule(module);
-            });
-        });
-
-        // Module switching function
         function switchModule(moduleName) {
-            // Update active button
-            navButtons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-module') === moduleName) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Update module visibility
+            // Hide all modules
             moduleContainers.forEach(container => {
                 container.classList.remove('active');
             });
-            document.getElementById(`module-${moduleName}`).classList.add('active');
 
-            // Update header
-            const metadata = moduleMetadata[moduleName];
-            moduleTitleIcon.textContent = metadata.icon;
-            moduleTitleText.textContent = metadata.title;
-            moduleSubtitle.textContent = metadata.subtitle;
+            // Remove active state from all buttons
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+            });
 
-            // Scroll to top
-            document.querySelector('.content-main').scrollTop = 0;
+            // Show selected module
+            const selectedModule = document.getElementById(`module-${moduleName}`);
+            if (selectedModule) {
+                selectedModule.classList.add('active');
+            }
+
+            // Activate corresponding button
+            const selectedButton = document.querySelector(`[data-module="${moduleName}"]`);
+            if (selectedButton) {
+                selectedButton.classList.add('active');
+                updateHeader(moduleName, selectedButton);
+            }
         }
 
-        // Initialize
-        console.log('SBR Master Super-App Initialized');
+        function updateHeader(moduleName, button) {
+            const icon = button.querySelector('.nav-icon').textContent;
+            const text = button.querySelector('span:last-child').textContent;
+
+            document.getElementById('moduleTitleIcon').textContent = icon;
+            document.getElementById('moduleTitleText').textContent = text;
+
+            // Update subtitle based on module
+            const subtitles = {
+                dashboard: 'Welcome to the SBR Master Super-App',
+                hadith: 'Daily Islamic wisdom and teachings',
+                calligraphy: 'Arabic calligraphy and Islamic art',
+                social: 'Connect with your favorite platforms',
+                canva: 'Create stunning visual designs',
+                youtube: 'Discover and manage video content',
+                etsy: 'Explore artisan products and crafts'
+            };
+
+            document.getElementById('moduleSubtitle').textContent = subtitles[moduleName] || 'Welcome';
+        }
+
+        // Event listeners for navigation
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const moduleName = button.getAttribute('data-module');
+                switchModule(moduleName);
+            });
+        });
+
+        // Strict Module Isolation - Prevent cross-module data access
+        const moduleData = {};
+        
+        window.getModuleData = function(moduleName) {
+            return moduleData[moduleName] || null;
+        };
+
+        window.setModuleData = function(moduleName, data) {
+            moduleData[moduleName] = { ...data };
+            return true;
+        };
     </script>
 </body>
 </html>

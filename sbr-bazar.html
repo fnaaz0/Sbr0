@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SBR Bazar - Islamic Artisan Marketplace">
+    <title>SBR Bazar - Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #d4af37;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .header p {
+            color: #a68a4a;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #d4af37, #e5c158);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-back {
+            background: transparent;
+            color: #d4af37;
+            border: 1.5px solid #d4af37;
+            margin-bottom: 30px;
+        }
+
+        .btn-back:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.03));
+            border: 1.5px solid #d4af37;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .module-card:hover {
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+            transform: translateY(-4px);
+            border-color: #e5c158;
+        }
+
+        .module-card:hover::before {
+            opacity: 1;
+        }
+
+        .module-card h3 {
+            color: #d4af37;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .module-card p {
+            color: #b8b8b8;
+            line-height: 1.8;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .product-card {
+            background: rgba(212, 175, 55, 0.08);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .product-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .product-name {
+            color: #d4af37;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .product-description {
+            color: #a68a4a;
+            font-size: 0.9rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e5c158;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="btn btn-back">← Back to Home</a>
+
+        <div class="header">
+            <h1>🛍️ SBR Bazar</h1>
+            <p>Islamic Artisan Marketplace</p>
+        </div>
+
+        <div class="module-card">
+            <h3>🛍️ SBR Bazar Marketplace</h3>
+            <p>Discover unique, handmade Islamic artisan products, crafts, and items from sellers around the world. Support small businesses and find authentic treasures through SBR Bazar.</p>
+        </div>
+
+        <div class="module-grid">
+            <div class="product-card">
+                <div class="product-icon">🎁</div>
+                <div class="product-name">Islamic Art</div>
+                <div class="product-description">Handcrafted Islamic artwork and prints</div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-icon">📿</div>
+                <div class="product-name">Jewelry</div>
+                <div class="product-description">Beautiful Islamic and cultural jewelry pieces</div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-icon">📚</div>
+                <div class="product-name">Books & Texts</div>
+                <div class="product-description">Islamic books, manuscripts, and religious texts</div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-icon">🧵</div>
+                <div class="product-name">Textiles</div>
+                <div class="product-description">Traditional fabrics, carpets, and woven goods</div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-icon">🏺</div>
+                <div class="product-name">Ceramics</div>
+                <div class="product-description">Handmade ceramics and pottery items</div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-icon">✨</div>
+                <div class="product-name">Special Items</div>
+                <div class="product-description">Unique and rare Islamic artifacts</div>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <h3>🌍 Global Artisans</h3>
+            <p>Support craftspeople from across the Islamic world and beyond. Every purchase directly supports traditional artisans and their families.</p>
+        </div>
+
+        <a href="index.html" class="btn btn-back" style="margin-top: 30px;">← Back to Home</a>
+    </div>
+</body>
+</html>

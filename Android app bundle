@@ -1,4 +1,0 @@
-- name: Build Android App Bundle (AAB)
-        run: |
-          cd android
-          ./gradlew bundleRelease

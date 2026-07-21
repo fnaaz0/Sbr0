@@ -1,1 +1,129 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#0d0d0d;
+    color:#fff;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 8%;
+    background:#111;
+    border-bottom:2px solid gold;
+    position:sticky;
+    top:0;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    color:gold;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:gold;
+}
+
+.hero{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.hero h1{
+    font-size:50px;
+    color:gold;
+    margin-bottom:20px;
+}
+
+.hero p{
+    color:#ddd;
+    font-size:20px;
+    margin-bottom:30px;
+}
+
+#exploreBtn{
+    padding:15px 40px;
+    border:none;
+    border-radius:10px;
+    background:gold;
+    color:black;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.modules{
+    width:90%;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    padding:50px 0;
+}
+
+.card{
+    background:#181818;
+    border:2px solid #333;
+    border-radius:20px;
+    padding:30px;
+    transition:.3s;
+}
+
+.card:hover{
+    border-color:gold;
+    transform:translateY(-8px);
+}
+
+.card h2{
+    color:gold;
+    margin-bottom:15px;
+}
+
+.card p{
+    color:#ccc;
+    line-height:1.6;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    border-top:2px solid gold;
+    margin-top:40px;
+    color:#aaa;
+}
+
+@media(max-width:768px){
+
+.header{
+    flex-direction:column;
+    gap:15px;
+}
+
+nav{
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.hero h1{
+    font-size:34px;
+}
+
+}

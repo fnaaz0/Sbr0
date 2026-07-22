@@ -121,3 +121,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+// -------------------------
+// Live Search
+// -------------------------
+
+const searchInput = document.getElementById("searchInput");
+
+if (searchInput) {
+
+    searchInput.addEventListener("keyup", () => {
+
+        const value = searchInput.value.toLowerCase();
+
+        cards.forEach(card => {
+
+            const text = card.innerText.toLowerCase();
+
+            if (text.includes(value)) {
+
+                card.style.display = "block";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+            }

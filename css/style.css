@@ -127,3 +127,90 @@ nav{
 }
 
 }
+/* ===========================
+   SBR Premium Animations
+=========================== */
+
+html{
+    scroll-behavior:smooth;
+}
+
+.card{
+    cursor:pointer;
+    overflow:hidden;
+    position:relative;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,215,0,.15),
+        transparent
+    );
+    transition:.7s;
+}
+
+.card:hover::before{
+    left:100%;
+}
+
+.card:hover{
+    box-shadow:0 0 25px rgba(255,215,0,.35);
+}
+
+nav a.active{
+    color:gold;
+    border-bottom:2px solid gold;
+}
+
+button{
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px rgba(255,215,0,.35);
+}
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111;
+}
+
+::-webkit-scrollbar-thumb{
+    background:gold;
+    border-radius:10px;
+}
+
+.fade-in{
+    animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.hero{
+    animation:fadeIn 1s ease;
+}
+
+.modules{
+    animation:fadeIn 1.3s ease;
+}

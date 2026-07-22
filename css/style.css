@@ -214,3 +214,39 @@ button:hover{
 .modules{
     animation:fadeIn 1.3s ease;
 }
+/* ========================= */
+/* Featured Courses */
+/* ========================= */
+
+.featured{
+    width:90%;
+    margin:60px auto;
+}
+
+.featured h2{
+    text-align:center;
+    color:gold;
+    margin-bottom:30px;
+    font-size:32px;
+}
+
+.featured .card{
+    margin-bottom:25px;
+}
+
+.featured button{
+    padding:12px 25px;
+    margin-top:15px;
+    background:gold;
+    color:#000;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.featured button:hover{
+    background:#ffd700;
+    transform:scale(1.05);
+}

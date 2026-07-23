@@ -325,3 +325,143 @@ AI.getSuggestions = function (query) {
 };
 
 console.log("SBR AI Smart Suggestions Ready");
+/* ==============================
+   SBR AI CONVERSATION HISTORY
+================================= */
+
+AI.history = [];
+
+AI.addHistory = function(question, answer) {
+    this.history.push({
+        question,
+        answer,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+        "sbr_ai_history",
+        JSON.stringify(this.history)
+    );
+};
+
+AI.loadHistory = function() {
+    const data = localStorage.getItem("sbr_ai_history");
+
+    if (data) {
+        this.history = JSON.parse(data);
+    }
+};
+
+AI.clearHistory = function() {
+    this.history = [];
+    localStorage.removeItem("sbr_ai_history");
+};
+
+AI.loadHistory();
+
+console.log("SBR AI Conversation History Ready");
+/* ==============================
+   SBR AI QUICK REPLIES
+================================= */
+
+AI.quickReplies = function(message) {
+
+    message = message.toLowerCase();
+
+    if (message.includes("assalam")) {
+        return "Wa Alaikum Assalam 🌹";
+    }
+
+    if (message.includes("help")) {
+        return "Main madad ke liye tayyar hoon.";
+    }
+
+    if (message.includes("doctor")) {
+        return "Healthcare section khol raha hoon.";
+    }
+
+    if (message.includes("market")) {
+        return "Marketplace section available hai.";
+    }
+
+    if (message.includes("quran")) {
+        return "Quran module open kiya ja sakta hai.";
+    }
+
+    return "Main aapke liye best solution dhoond raha hoon...";
+};
+
+console.log("SBR AI Quick Replies Ready");
+/* ==============================
+   SBR AI MULTIPLE SOLUTIONS
+================================= */
+
+AI.solve = function(problem) {
+
+    return [
+        "Solution 1 : Search inside SBR Global",
+        "Solution 2 : Ask AI Assistant",
+        "Solution 3 : Open Related Module",
+        "Solution 4 : Watch Tutorial",
+        "Solution 5 : Contact Expert",
+        "Solution 6 : Community Help",
+        "Solution 7 : Official Website",
+        "Solution 8 : Saved Documents",
+        "Solution 9 : Recent Searches",
+        "Solution 10 : Smart Recommendation"
+    ];
+
+};
+
+console.log("SBR AI Multiple Solutions Ready");
+/* ==============================
+   SBR AI LEARNING ENGINE
+================================= */
+
+AI.learning = [];
+
+AI.learn = function(topic, data) {
+
+    this.learning.push({
+        topic: topic,
+        data: data,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+        "sbr_ai_learning",
+        JSON.stringify(this.learning)
+    );
+
+    return true;
+};
+
+AI.loadLearning = function() {
+
+    const saved = localStorage.getItem("sbr_ai_learning");
+
+    if (saved) {
+        this.learning = JSON.parse(saved);
+    }
+};
+
+AI.findKnowledge = function(topic) {
+
+    topic = topic.toLowerCase();
+
+    return this.learning.filter(item =>
+        item.topic.toLowerCase().includes(topic)
+    );
+
+};
+
+AI.clearLearning = function() {
+
+    this.learning = [];
+
+    localStorage.removeItem("sbr_ai_learning");
+};
+
+AI.loadLearning();
+
+console.log("SBR AI Learning Engine Ready");

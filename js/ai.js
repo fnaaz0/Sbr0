@@ -268,3 +268,60 @@ AI.help = function() {
 };
 
 console.log("SBR AI Help Ready");
+/* ===============================
+   SBR AI SMART SUGGESTIONS
+================================ */
+
+AI.getSuggestions = function (query) {
+
+    query = query.toLowerCase();
+
+    const suggestions = {
+        islam: [
+            "Quran",
+            "Hadith",
+            "Prayer Times",
+            "Qibla Finder",
+            "Islamic Calendar"
+        ],
+
+        healthcare: [
+            "Doctor Search",
+            "Medicine Reminder",
+            "Hospital Finder",
+            "Health Tips",
+            "Emergency Help"
+        ],
+
+        marketplace: [
+            "Buy Products",
+            "Sell Products",
+            "My Orders",
+            "Wishlist",
+            "Nearby Shops"
+        ],
+
+        social: [
+            "Chat",
+            "Video Call",
+            "Create Post",
+            "Stories",
+            "Groups"
+        ]
+    };
+
+    for (const key in suggestions) {
+        if (query.includes(key)) {
+            return suggestions[key];
+        }
+    }
+
+    return [
+        "Search Again",
+        "Ask AI",
+        "Open Settings",
+        "Help Center"
+    ];
+};
+
+console.log("SBR AI Smart Suggestions Ready");

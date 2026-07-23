@@ -139,3 +139,50 @@ if (NotificationSystem.notifications.length === 0) {
     );
 
 }
+/* ===============================
+   SBR GLOBAL PROFILE MANAGER
+================================ */
+
+class SBRProfile {
+
+    constructor() {
+
+        this.profile = JSON.parse(
+            localStorage.getItem("sbr_profile")
+        ) || {};
+
+    }
+
+    save(data) {
+
+        this.profile = {
+            ...this.profile,
+            ...data
+        };
+
+        localStorage.setItem(
+            "sbr_profile",
+            JSON.stringify(this.profile)
+        );
+
+        console.log("Profile Saved");
+
+    }
+
+    get() {
+
+        return this.profile;
+
+    }
+
+    clear() {
+
+        this.profile = {};
+
+        localStorage.removeItem("sbr_profile");
+
+    }
+
+}
+
+const ProfileManager = new SBRProfile();

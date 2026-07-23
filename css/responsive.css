@@ -33,3 +33,108 @@ font-size:20px;
 }
 
 }
+/* =======================================
+   SBR GLOBAL - ADVANCED RESPONSIVE
+======================================= */
+
+/* Tablets */
+@media (max-width:992px){
+
+.container{
+width:95%;
+margin:auto;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.sidebar{
+width:240px;
+}
+
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.card{
+margin:12px 0;
+padding:15px;
+border-radius:15px;
+}
+
+button{
+width:100%;
+padding:14px;
+font-size:16px;
+}
+
+input,
+textarea,
+select{
+width:100%;
+font-size:16px;
+padding:12px;
+}
+
+img{
+max-width:100%;
+height:auto;
+}
+
+}
+
+/* Small Phones */
+
+@media (max-width:480px){
+
+body{
+font-size:15px;
+}
+
+h1{
+font-size:26px;
+}
+
+h2{
+font-size:22px;
+}
+
+h3{
+font-size:18px;
+}
+
+.card{
+padding:12px;
+}
+
+.logo{
+width:60px;
+height:60px;
+}
+
+}
+
+/* Large Screens */
+
+@media (min-width:1400px){
+
+.container{
+max-width:1400px;
+margin:auto;
+}
+
+.grid{
+grid-template-columns:repeat(4,1fr);
+gap:25px;
+}
+
+}

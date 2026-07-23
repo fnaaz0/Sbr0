@@ -71,3 +71,71 @@ document.addEventListener("DOMContentLoaded",()=>{
     );
 
 });
+/* ===============================
+   SBR GLOBAL NOTIFICATION SYSTEM
+================================ */
+
+class SBRNotification {
+
+    constructor() {
+        this.notifications = [];
+    }
+
+    add(title, message, type = "info") {
+
+        const notification = {
+            id: Date.now(),
+            title,
+            message,
+            type,
+            time: new Date().toLocaleString()
+        };
+
+        this.notifications.unshift(notification);
+
+        localStorage.setItem(
+            "sbr_notifications",
+            JSON.stringify(this.notifications)
+        );
+
+        console.log("Notification Added:", notification);
+
+        return notification;
+    }
+
+    load() {
+
+        const data = localStorage.getItem("sbr_notifications");
+
+        if (data) {
+            this.notifications = JSON.parse(data);
+        }
+
+        return this.notifications;
+    }
+
+    clear() {
+
+        this.notifications = [];
+
+        localStorage.removeItem("sbr_notifications");
+
+        console.log("Notifications Cleared");
+    }
+
+}
+
+const NotificationSystem = new SBRNotification();
+
+NotificationSystem.load();
+/* Default Welcome Notification */
+
+if (NotificationSystem.notifications.length === 0) {
+
+    NotificationSystem.add(
+        "Welcome",
+        "Welcome to SBR Global Super App",
+        "success"
+    );
+
+}

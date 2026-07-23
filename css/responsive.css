@@ -1,1 +1,35 @@
+/* =====================
+Responsive
+===================== */
 
+@media(max-width:768px){
+
+.card{
+
+margin:15px;
+
+}
+
+button{
+
+width:100%;
+
+}
+
+}
+
+@media(max-width:480px){
+
+h1{
+
+font-size:26px;
+
+}
+
+h2{
+
+font-size:20px;
+
+}
+
+}

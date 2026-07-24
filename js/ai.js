@@ -4444,3 +4444,59 @@ AI.logger.last = function(){
 
 console.log("SBR AI Logger Engine Ready");
 
+/* ==========================================
+   SBR AI Kernel Engine
+========================================== */
+
+AI.kernel = {};
+
+AI.kernel.name = "SBR AI Kernel";
+AI.kernel.version = "1.0.0";
+AI.kernel.status = "READY";
+
+AI.kernel.start = function () {
+
+    console.log("SBR AI Kernel Starting...");
+
+    if (AI.core && AI.core.boot) {
+        AI.core.boot();
+    }
+
+    this.status = "RUNNING";
+
+    console.log("SBR AI Kernel Started");
+
+    return true;
+};
+
+AI.kernel.stop = function () {
+
+    this.status = "STOPPED";
+
+    if (AI.core && AI.core.shutdown) {
+        AI.core.shutdown();
+    }
+
+    console.log("SBR AI Kernel Stopped");
+
+    return true;
+};
+
+AI.kernel.restart = function () {
+
+    this.stop();
+
+    return this.start();
+};
+
+AI.kernel.info = function () {
+
+    return {
+        name: this.name,
+        version: this.version,
+        status: this.status,
+        time: new Date().toLocaleString()
+    };
+};
+
+console.log("SBR AI Kernel Engine Ready");

@@ -58,5 +58,3 @@
   "english": "Actions are judged by intentions.",
   "keywords": ["niyat", "intention", "bukhari", "actions"]
 }
-<p><strong>Reference:</strong> ${item.reference || "N/A"}</p>
-<p><strong>Source:</strong> ${item.source || "N/A"}</p>

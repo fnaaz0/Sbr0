@@ -25,4 +25,19 @@
     "urdu": "اسلام کی بنیاد پانچ چیزوں پر ہے۔",
     "english": "Islam is built on five pillars."
   }
+  {
+  "id": 3,
+  "book": "Sahih Muslim",
+  "bookId": "Muslim",
+  "chapter": "Purification",
+  "chapterNo": 1,
+  "hadithNo": 223,
+  "grade": "Sahih",
+  "narrator": "Abu Hurairah (RA)",
+  "arabic": "الطُّهُورُ شَطْرُ الإِيمَانِ",
+  "urdu": "پاکیزگی ایمان کا آدھا حصہ ہے۔",
+  "hindi": "پاكيزگی ایمان کا آدھا حصہ ہے۔",
+  "english": "Purification is half of faith."
+  }
 ]
+

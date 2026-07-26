@@ -164,3 +164,43 @@ ${item.english}
 
   loadHadith();
 });
+const normalizeText = (value = "") =>
+  String(value)
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\u0600-\u06FF]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+
+function buildSearchBlob(item) {
+  return [
+    item.book,
+    item.bookId,
+    item.chapter,
+    item.chapterNo,
+    item.hadithNo,
+    item.grade,
+    item.narrator,
+    item.arabic,
+    item.urdu,
+    item.english
+  ]
+    .map(normalizeText)
+    .join(" ");
+}
+
+function searchHadith(query) {
+  const q = normalizeText(query);
+
+  if (!q) {
+    filteredHadith = [...allHadith];
+  } else {
+    filteredHadith = allHadith.filter((item) => {
+      const blob = item.__searchBlob || (item.__searchBlob = buildSearchBlob(item));
+      return blob.includes(q);
+    });
+  }
+
+  renderHadith();
+}

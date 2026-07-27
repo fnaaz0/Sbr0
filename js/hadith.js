@@ -4,53 +4,117 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let allHadith = [];
   let filteredHadith = [];
+  let searchTimer = null;
 
-  async function loadHadith() {
-    try {
-      const res = await fetch("../data/hadith.json", { cache: "force-cache" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      const data = await res.json();
-      allHadith = Array.isArray(data) ? data : (data.hadiths || []);
-      filteredHadith = [...allHadith];
-      renderHadith();
-    } catch (error) {
-      console.error("Hadith load error:", error);
-      if (hadithContainer) {
-        hadithContainer.innerHTML = `
-          <div class="hadith-card">
-            <h2>❌ Error</h2>
-            <p>Hadith data load nahi ho saka.</p>
-          </div>
-        `;
-      }
-    }
+  function flattenValue(value) {
+    if (value === null || value === undefined) return "";
+    if (Array.isArray(value)) return value.map(flattenValue).join(" ");
+    if (typeof value === "object") return Object.values(value).map(flattenValue).join(" ");
+    return String(value);
   }
 
   const normalizeText = (value = "") =>
-    String(value)
+    flattenValue(value)
       .toLowerCase()
       .normalize("NFKD")
       .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\u0600-\u06FF]+/g, " ")
+      .replace(/[^a-z0-9\u0600-\u06FF\u0900-\u097F]+/g, " ")
       .trim()
       .replace(/\s+/g, " ");
 
   function buildSearchBlob(item) {
     return [
       item.book,
+      item.bookArabic,
       item.bookId,
       item.chapter,
+      item.chapterArabic,
       item.chapterNo,
       item.hadithNo,
       item.grade,
       item.narrator,
+      item.reference,
+      item.source,
       item.arabic,
       item.urdu,
-      item.english
+      item.hindi,
+      item.english,
+      item.keywords
     ]
       .map(normalizeText)
       .join(" ");
+  }
+
+  async function loadHadith() {
+    const fallbackHadith = [
+      {
+        id: 1,
+        book: "Sahih al-Bukhari",
+        bookId: "Bukhari",
+        chapter: "Revelation",
+        chapterNo: 1,
+        hadithNo: 1,
+        grade: "Sahih",
+        narrator: "Umar ibn Al-Khattab (RA)",
+        reference: "Sahih al-Bukhari, Book 1, Hadith 1",
+        source: "Sahih al-Bukhari",
+        arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
+        urdu: "اعمال کا دار و مدار نیتوں پر ہے۔",
+        hindi: "कर्मों का आधार नीयत पर है।",
+        english: "Actions are judged by intentions.",
+        keywords: ["niyat", "intention", "bukhari", "actions"]
+      },
+      {
+        id: 2,
+        book: "Sahih al-Bukhari",
+        bookId: "Bukhari",
+        chapter: "Faith",
+        chapterNo: 2,
+        hadithNo: 8,
+        grade: "Sahih",
+        narrator: "Ibn Umar (RA)",
+        reference: "Sahih al-Bukhari, Book 2, Hadith 8",
+        source: "Sahih al-Bukhari",
+        arabic: "بُنِيَ الإِسْلَامُ عَلَى خَمْسٍ",
+        urdu: "اسلام کی بنیاد پانچ چیزوں پر ہے۔",
+        hindi: "इस्लाम की बुनियाद पाँच चीज़ों पर है।",
+        english: "Islam is built on five pillars.",
+        keywords: ["islam", "five pillars", "bukhari"]
+      },
+      {
+        id: 3,
+        book: "Sahih Muslim",
+        bookId: "Muslim",
+        chapter: "Purification",
+        chapterNo: 1,
+        hadithNo: 223,
+        grade: "Sahih",
+        narrator: "Abu Hurairah (RA)",
+        reference: "Sahih Muslim, Book 1, Hadith 223",
+        source: "Sahih Muslim",
+        arabic: "الطُّهُورُ شَطْرُ الإِيمَانِ",
+        urdu: "پاکیزگی ایمان کا آدھا حصہ ہے۔",
+        hindi: "पाकीज़गी ईमान का आधा हिस्सा है।",
+        english: "Purification is half of faith.",
+        keywords: ["purification", "faith", "muslim"]
+      }
+    ];
+
+    try {
+      const url = new URL("../data/hadith.json", window.location.href).href;
+      const res = await fetch(url, { cache: "no-store" });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+      allHadith = Array.isArray(data) ? data : (data.hadiths || []);
+    } catch (error) {
+      console.error("Hadith load error:", error);
+      allHadith = fallbackHadith;
+    }
+
+    filteredHadith = [...allHadith];
+    renderHadith();
   }
 
   function buildHadithText(item) {
@@ -60,15 +124,20 @@ Chapter: ${item.chapter}
 Hadith No: ${item.hadithNo}
 Grade: ${item.grade}
 Narrator: ${item.narrator}
+Reference: ${item.reference || "N/A"}
+Source: ${item.source || "N/A"}
 
 Arabic:
-${item.arabic}
+${item.arabic || ""}
 
 Urdu:
-${item.urdu}
+${item.urdu || ""}
+
+Hindi:
+${item.hindi || ""}
 
 English:
-${item.english}
+${item.english || ""}
     `.trim();
   }
 
@@ -102,21 +171,26 @@ ${item.english}
     card.className = "hadith-card";
 
     card.innerHTML = `
-      <h2>📚 ${item.book}</h2>
-      <p><strong>Chapter:</strong> ${item.chapter} (${item.chapterNo})</p>
-      <p><strong>Hadith No:</strong> ${item.hadithNo}</p>
-      <p><strong>Grade:</strong> ${item.grade}</p>
-      <p><strong>Narrator:</strong> ${item.narrator}</p>
+      <h2>📚 ${item.book || "Hadith"}</h2>
+      <p><strong>Chapter:</strong> ${item.chapter || "N/A"} (${item.chapterNo || "N/A"})</p>
+      <p><strong>Hadith No:</strong> ${item.hadithNo || "N/A"}</p>
+      <p><strong>Grade:</strong> ${item.grade || "N/A"}</p>
+      <p><strong>Narrator:</strong> ${item.narrator || "N/A"}</p>
+      <p><strong>Reference:</strong> ${item.reference || "N/A"}</p>
+      <p><strong>Source:</strong> ${item.source || "N/A"}</p>
 
       <div class="hadith-box">
         <p><strong>Arabic:</strong></p>
-        <p class="arabic-text">${item.arabic}</p>
+        <p class="arabic-text">${item.arabic || ""}</p>
 
         <p><strong>Urdu:</strong></p>
-        <p>${item.urdu}</p>
+        <p>${item.urdu || ""}</p>
+
+        <p><strong>Hindi:</strong></p>
+        <p>${item.hindi || ""}</p>
 
         <p><strong>English:</strong></p>
-        <p>${item.english}</p>
+        <p>${item.english || ""}</p>
       </div>
 
       <div class="hadith-actions">
@@ -129,36 +203,32 @@ ${item.english}
     const shareBtn = card.querySelector(".share-btn");
 
     copyBtn.addEventListener("click", async () => {
-      const text = buildHadithText(item);
-      const ok = await copyToClipboard(text);
-
-      if (ok) {
-        alert("Hadith copied!");
-      } else {
-        alert("Copy nahi hua.");
-      }
+      const ok = await copyToClipboard(buildHadithText(item));
+      alert(ok ? "Hadith copied!" : "Copy nahi hua.");
     });
 
     shareBtn.addEventListener("click", async () => {
       const shareText = `
-${item.book}
-Chapter: ${item.chapter}
-Hadith No: ${item.hadithNo}
+${item.book || "Hadith"}
+Chapter: ${item.chapter || "N/A"}
+Hadith No: ${item.hadithNo || "N/A"}
 
-${item.english}
+${item.english || ""}
       `.trim();
 
       try {
         if (navigator.share) {
           await navigator.share({
-            title: item.book,
+            title: item.book || "Hadith",
             text: shareText
           });
         } else {
           alert("Share feature is not supported on this device.");
         }
       } catch (err) {
-        console.error("Share failed:", err);
+        if (err && err.name !== "AbortError") {
+          console.error("Share failed:", err);
+        }
       }
     });
 
@@ -168,7 +238,7 @@ ${item.english}
   function renderHadith() {
     if (!hadithContainer) return;
 
-    hadithContainer.replaceChildren();
+    hadithContainer.innerHTML = "";
 
     if (!filteredHadith.length) {
       hadithContainer.innerHTML = `
@@ -181,7 +251,9 @@ ${item.english}
     }
 
     const fragment = document.createDocumentFragment();
-    filteredHadith.forEach((item) => fragment.appendChild(createHadithCard(item)));
+    filteredHadith.forEach((item) => {
+      fragment.appendChild(createHadithCard(item));
+    });
     hadithContainer.appendChild(fragment);
   }
 
@@ -201,10 +273,9 @@ ${item.english}
   }
 
   if (searchInput) {
-    let timer = null;
     searchInput.addEventListener("input", (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
         searchHadith(e.target.value);
       }, 150);
     });
@@ -212,4 +283,3 @@ ${item.english}
 
   loadHadith();
 });
-

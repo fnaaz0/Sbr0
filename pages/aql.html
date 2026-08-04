@@ -205,6 +205,33 @@ Start Learning
 </footer>
 
 <script src="../js/app.js"></script>
+<!-- SBR AQL INTEGRATED AI COMPONENT -->
+<div id="openai-aql-box" style="background: #121212; border: 2px solid #ffcc00; border-radius: 12px; padding: 20px; margin: 25px auto; max-width: 600px; font-family: sans-serif; color: #ffffff; box-shadow: 0px 4px 15px rgba(255, 204, 0, 0.2);">
+    <div style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 10px;">
+        <span style="font-size: 26px; margin-right: 10px;">🧠</span>
+        <h3 style="margin: 0; color: #ffcc00; font-size: 20px;">SBR Aql - Quran & Tafsir AI</h3>
+    </div>
+    <div style="margin-bottom: 15px;">
+        <textarea id="openai-aql-text-input" rows="4" placeholder="Ask any question about Quran, Tafsir, or Islamic wisdom..." style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #333; background: #1a1a1a; color: #fff; font-size: 14px; box-sizing: border-box; outline: none; resize: none;"></textarea>
+    </div>
+    <div style="margin-bottom: 15px;">
+        <button id="openai-aql-submit-btn" onclick="triggerOpenAIAql()" style="width: 100%; background: #ffcc00; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px;">Ask SBR Aql</button>
+    </div>
+    <div id="openai-aql-response-screen" style="background: #070707; border-radius: 8px; padding: 15px; min-height: 100px; max-height: 250px; overflow-y: auto; font-size: 14px; line-height: 1.5; color: #eaeaea; border: 1px solid #222;">
+        Responses powered by OpenAI GPT-4o will appear here...
+    </div>
+</div>
 
+<!-- Linking our magic global script -->
+<script src="../js/sbr-ai-core.js"></script>
+
+<script>
+function triggerOpenAIAql() {
+    const prompt = document.getElementById('openai-aql-text-input').value.trim();
+    if (!prompt) return;
+    askSBRSuperAppAI('openai', prompt, 'openai-aql-response-screen', 'openai-aql-submit-btn');
+}
+  </script>
+  
 </body>
 </html>

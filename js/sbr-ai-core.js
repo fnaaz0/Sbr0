@@ -48,3 +48,24 @@ async function askSBRSuperAppAI(engineType, userPrompt, outputElementId, buttonE
         }
     }
 }
+// 2. बटन क्लिक होने पर मास्टर एआई फंक्शन को कॉल करना
+document.addEventListener("DOMContentLoaded", () => {
+    const executeBtn = document.getElementById("execute-btn"); // आपके पीले बटन की ID
+    const aiModuleSelect = document.getElementById("ai-module-select") || document.querySelector("select"); // ड्रॉपडाउन
+    const promptInput = document.getElementById("ai-prompt") || document.querySelector("textarea"); // इनपुट बॉक्स
+
+    if (executeBtn) {
+        executeBtn.addEventListener("click", () => {
+            const selectedEngine = aiModuleSelect ? aiModuleSelect.value : "Aql";
+            const userPrompt = promptInput ? promptInput.value : "";
+
+            if (!userPrompt) {
+                return alert("कृपया पहले अपना सवाल या डिज़ाइन प्रॉम्ट यहाँ लिखें!");
+            }
+
+            // आपके ऊपर वाले मास्टर फंक्शन (लाइन 7) को बटन से जोड़ना
+            // यह खुद-ब-खुद '/api/chat' को कॉल करेगा और 'ai-result-box' में रिजल्ट दिखाएगा
+            askSBRSuperAppAi(selectedEngine, userPrompt, "ai-result-box", "execute-btn");
+        });
+    }
+});
